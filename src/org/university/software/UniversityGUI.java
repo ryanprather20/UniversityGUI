@@ -438,10 +438,10 @@ public class UniversityGUI extends JFrame {
             JTextField dep = new JTextField();
             JTextField courseNum = new JTextField();
 
-            int spongebob = JOptionPane.showOptionDialog(dropCourseFrame, new Object[]{"Student Name: ", name, "Department: ", dep, "Course Number: ", courseNum},
+            int okayClick = JOptionPane.showOptionDialog(dropCourseFrame, new Object[]{"Student Name: ", name, "Department: ", dep, "Course Number: ", courseNum},
                     "Drop Course", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
-            if (spongebob == JOptionPane.OK_OPTION) {
+            if (okayClick == JOptionPane.OK_OPTION) {
                 String n = name.getText().trim();
                 String d = dep.getText().trim();
                 String c = courseNum.getText().trim();
@@ -452,7 +452,7 @@ public class UniversityGUI extends JFrame {
                 boolean z = false; //course exists
                 Boolean OC = null; //true = campus | False = online
                 Object classType = null;
-                Student ryan = null;
+                Student studentDropping = null;
                 CampusCourse campus = null;
                 OnlineCourse online = null;
 
@@ -462,7 +462,7 @@ public class UniversityGUI extends JFrame {
                     for (Student student : de.getStudentList()) {
                         if (student.getName().equals(n)) {
                             y = true;
-                            ryan = student;
+                            studentDropping = student;
                         }
                     }
                     for (CampusCourse cl : de.getCCourses()) {
@@ -499,42 +499,42 @@ public class UniversityGUI extends JFrame {
                         e.printStackTrace();
                     }
                     if (modality) {
-                        if (ryan.campusCourseList.contains(campus)) {
-                            if (ryan.getOnlineCourseList().size() >= 1) {
+                        if (studentDropping.campusCourseList.contains(campus)) {
+                            if (studentDropping.getOnlineCourseList().size() >= 1) {
                                 //if student will have 6 credits left after dropping this class (to keep oCourse) then drop course
-                                if ((ryan.getcCredits() - campus.getCreditUnits()) >= 6) {
+                                if ((studentDropping.getcCredits() - campus.getCreditUnits()) >= 6) {
                                     //remove student from course, course from student, subtract credits
-                                    campus.getStudentRoster().remove(ryan);
-                                    ryan.getCampusCourseList().remove(campus);
-                                    ryan.enrolledCredits -= campus.getCreditUnits();
-                                    ryan.cCredits -= campus.getCreditUnits();
+                                    campus.getStudentRoster().remove(studentDropping);
+                                    studentDropping.getCampusCourseList().remove(campus);
+                                    studentDropping.enrolledCredits -= campus.getCreditUnits();
+                                    studentDropping.cCredits -= campus.getCreditUnits();
                                     JOptionPane.showMessageDialog(dropCourseFrame, "Success you have dropped " + campus.getName(), "Success", JOptionPane.PLAIN_MESSAGE);
                                 } else {
-                                    JOptionPane.showMessageDialog(dropCourseFrame, ryan.getName() + " can't drop this campus course, because this student"
+                                    JOptionPane.showMessageDialog(dropCourseFrame, studentDropping.getName() + " can't drop this campus course, because this student"
                                             + " doesn't have enough campus course credits to hold the online course", "Error ", JOptionPane.WARNING_MESSAGE);
                                 }
                             } else { //if not in online course drop course
-                                campus.getStudentRoster().remove(ryan);
-                                ryan.getCampusCourseList().remove(campus);
-                                ryan.enrolledCredits -= campus.getCreditUnits();
-                                ryan.cCredits -= campus.getCreditUnits();
+                                campus.getStudentRoster().remove(studentDropping);
+                                studentDropping.getCampusCourseList().remove(campus);
+                                studentDropping.enrolledCredits -= campus.getCreditUnits();
+                                studentDropping.cCredits -= campus.getCreditUnits();
                                 JOptionPane.showMessageDialog(dropCourseFrame, "Success you have dropped " + campus.getName(), "Success", JOptionPane.PLAIN_MESSAGE);
                             }
                         } else {
                             JOptionPane.showMessageDialog(dropCourseFrame, "The course " + campus.getDepartment().getDepartmentName() + campus.getCourseNumber() +
-                                    " could not be dropped because " + ryan.getName() + " is not enrolled in " + campus.getDepartment().getDepartmentName() +
+                                    " could not be dropped because " + studentDropping.getName() + " is not enrolled in " + campus.getDepartment().getDepartmentName() +
                                     campus.getCourseNumber() + ".", "Error ", JOptionPane.WARNING_MESSAGE);
                         }
                     } else {
-                        if (ryan.onlineCourseList.contains(online)) {            //if in roster drop
-                            online.getStudentRoster().remove(ryan);
-                            ryan.getOnlineCourseList().remove(online);
-                            ryan.enrolledCredits -= online.getCreditUnits();
-                            ryan.oCredits -= online.getCreditUnits();
+                        if (studentDropping.onlineCourseList.contains(online)) {            //if in roster drop
+                            online.getStudentRoster().remove(studentDropping);
+                            studentDropping.getOnlineCourseList().remove(online);
+                            studentDropping.enrolledCredits -= online.getCreditUnits();
+                            studentDropping.oCredits -= online.getCreditUnits();
                             JOptionPane.showMessageDialog(dropCourseFrame, "Success you have dropped " + online.getName(), "Success", JOptionPane.PLAIN_MESSAGE);
                         } else {    //error message if not in roster
                             JOptionPane.showMessageDialog(dropCourseFrame, "The course " + online.getDepartment().getDepartmentName() + online.getCourseNumber() +
-                                    " could not be dropped because " + ryan.getName() + " is not enrolled in " + online.getDepartment().getDepartmentName() +
+                                    " could not be dropped because " + studentDropping.getName() + " is not enrolled in " + online.getDepartment().getDepartmentName() +
                                     online.getCourseNumber() + ".");
                         }
                     }
