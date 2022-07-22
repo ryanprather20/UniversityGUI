@@ -183,7 +183,7 @@ public class UniversityGUI extends JFrame {
 
             UIManager.put("OptionPane.minimumSize", new Dimension(350, 300));
             int okay = JOptionPane.showOptionDialog(createCourseFrame, new Object[]{"Course name: ", courseName, "Department: ", department,
-                    "Course number: ", courseNum, "Max # of students: ", maxStu, "Credits: ", credits}, "Create a new Campus Course",
+                            "Course number: ", courseNum, "Max # of students: ", maxStu, "Credits: ", credits}, "Create a new Campus Course",
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
             if (okay == JOptionPane.OK_OPTION) {
@@ -206,8 +206,9 @@ public class UniversityGUI extends JFrame {
                     }
                 }
 
-                if (!x) JOptionPane.showMessageDialog(createCourseFrame, "Department " + dep + " isn't a valid department ",
-                        "Error Creating Campus Course", JOptionPane.WARNING_MESSAGE);
+                if (!x)
+                    JOptionPane.showMessageDialog(createCourseFrame, "Department " + dep + " isn't a valid department ",
+                            "Error Creating Campus Course", JOptionPane.WARNING_MESSAGE);
             }
         }
 
@@ -241,8 +242,9 @@ public class UniversityGUI extends JFrame {
                     }
                 }
 
-                if (!x) JOptionPane.showMessageDialog(createCourseFrame, "Department " + dep + " isn't a valid department ",
-                        "Error Creating Online Course", JOptionPane.WARNING_MESSAGE);
+                if (!x)
+                    JOptionPane.showMessageDialog(createCourseFrame, "Department " + dep + " isn't a valid department ",
+                            "Error Creating Online Course", JOptionPane.WARNING_MESSAGE);
             }
         }
 
@@ -287,12 +289,15 @@ public class UniversityGUI extends JFrame {
                 }
 
                 //Error Messages
-                if (!x) JOptionPane.showMessageDialog(createClassroomFrame, "Department " + depart + " isn't a valid department ",
-                        "Error ", JOptionPane.WARNING_MESSAGE);
-                if (!y) JOptionPane.showMessageDialog(createClassroomFrame, "Course " + depart + numb + " isn't a valid course ",
-                        "Error ", JOptionPane.WARNING_MESSAGE);
-                if (!z) JOptionPane.showMessageDialog(createClassroomFrame, "Classroom " + room + " isn't a valid classroom ",
-                        "Error ", JOptionPane.WARNING_MESSAGE);
+                if (!x)
+                    JOptionPane.showMessageDialog(createClassroomFrame, "Department " + depart + " isn't a valid department ",
+                            "Error ", JOptionPane.WARNING_MESSAGE);
+                if (!y)
+                    JOptionPane.showMessageDialog(createClassroomFrame, "Course " + depart + numb + " isn't a valid course ",
+                            "Error ", JOptionPane.WARNING_MESSAGE);
+                if (!z)
+                    JOptionPane.showMessageDialog(createClassroomFrame, "Classroom " + room + " isn't a valid classroom ",
+                            "Error ", JOptionPane.WARNING_MESSAGE);
 
                 if (x && y && z) {
                     for (Department d : univ1.getDepartments()) {
@@ -323,107 +328,95 @@ public class UniversityGUI extends JFrame {
             JFrame addCourseFrame = new JFrame("Add course");
             setLocationRelativeTo(null);
             addCourseFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JTextField name = new JTextField();
-            JTextField dep = new JTextField();
-            JTextField courseNum = new JTextField();
+            JTextField nameField = new JTextField();
+            JTextField deptField = new JTextField();
+            JTextField courseNumField = new JTextField();
 
-            int okayClick = JOptionPane.showOptionDialog(addCourseFrame, new Object[]{"Student Name: ", name, "Department: ", dep,
-                            "Course Number: ", courseNum},
-                    "Add Course", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-                    null, null, null);
+            int okayClick = JOptionPane.showOptionDialog(addCourseFrame, new Object[]{"Student Name: ", nameField, "Department: ", deptField,
+                            "Course Number: ", courseNumField}, "Add Course", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE
+                    , null, null, null);
 
             if (okayClick == JOptionPane.OK_OPTION) {
-                String n = name.getText().trim();
-                String d = dep.getText().trim();
-                String c = courseNum.getText().trim();
-                int number = Integer.parseInt(c);
+                String name = nameField.getText().trim();
+                String dept = deptField.getText().trim();
+                String courseNum = courseNumField.getText().trim();
+                int number = Integer.parseInt(courseNum);
 
-                boolean x = false; //dep exist
-                boolean y = false; //student exist
-                boolean z = false; //course exists
-                Boolean OC = null; //true = campus | False = online
-                Object classType = null;
-                Student student = null;
-                CampusCourse campus = null;
-                OnlineCourse online = null;
+                boolean studExist = false; //student exist
+                boolean depExist = false; //dep exist
+                boolean courseExist = false; //course exists
+                boolean modality = false; // online course to start
+                Student studentAdding = null;
+                CampusCourse campusCourse = null;
+                OnlineCourse onlineCourse = null;
 
-                for (Department de : univ1.getDepartments()) {
-                    if (d.equals(de.getDepartmentName())) x = true;
+                for (Department d : univ1.getDepartments()) {
+                    if (dept.equals(d.getDepartmentName())) {
+                        depExist = true;
 
-                    for (Student stud : de.getStudentList()) {
-                        if (stud.getName().equals(n)) {
-                            y = true;
-                            student = stud;
+                        for (Student stud : d.getStudentList()) {
+                            if (stud.getName().equals(name)) {
+                                studExist = true;
+                                studentAdding = stud;
+                                break;
+                            }
                         }
-                    }
-                    for (CampusCourse cl : de.getCCourses()) {
-                        if (cl.getCourseNumber() == number) {
-                            z = true;
-                            OC = true;
-                            campus = cl;
-                            classType = cl;
+                        for (CampusCourse CC : d.getCCourses()) {
+                            if (CC.getCourseNumber() == number) {
+                                courseExist = true;
+                                modality = true;
+                                campusCourse = CC;
+                            }
                         }
-                    }
-                    for (OnlineCourse cl : de.getOCourses()) {
-                        if (cl.getCourseNumber() == number) {
-                            z = true;
-                            OC = false;
-                            online = cl;
-                            classType = cl;
+                        for (OnlineCourse OC : d.getOCourses()) {
+                            if (OC.getCourseNumber() == number) {
+                                courseExist = true;
+                                modality = false;
+                                onlineCourse = OC;
+                            }
                         }
+                        break;
                     }
                 }
 
-                //Error Messages
-                if (!x) JOptionPane.showMessageDialog(addCourseFrame, "Department " + d + " doesn't exist",
+                // Error messages
+                if (!studExist) JOptionPane.showMessageDialog(addCourseFrame, "Student " + name + " doesn't exist",
                         "Error ", JOptionPane.WARNING_MESSAGE);
-                if (!y) JOptionPane.showMessageDialog(addCourseFrame, "Student " + n + " doesn't exist",
+                if (!depExist) JOptionPane.showMessageDialog(addCourseFrame, "Department " + dept + " doesn't exist",
                         "Error ", JOptionPane.WARNING_MESSAGE);
-                if (!z) JOptionPane.showMessageDialog(addCourseFrame, "Course: " + d + c + " doesn't exist",
-                        "Error ", JOptionPane.WARNING_MESSAGE);
+                if (!courseExist)
+                    JOptionPane.showMessageDialog(addCourseFrame, "Course: " + dept + courseNum + " doesn't exist",
+                            "Error ", JOptionPane.WARNING_MESSAGE);
 
-                if (x && y && z) {
-                    Boolean modality = null;
-                    try {
-                        modality = Class.forName("org.university.software.CampusCourse").isInstance(classType);
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    if (modality) {
-                        String oops = "";
-                        for (Person spoon : campus.getStudentRoster()) {
-                            if (spoon.getName().equals(student.getName())) {
-                                oops = spoon.getName();
-                            }
+                if (depExist && studExist && courseExist) {
+                    if (modality) { // if a campus course
+                        if (campusCourse.getStudentRoster().contains(studentAdding)) { // check if already enrolled
+                            JOptionPane.showMessageDialog(addCourseFrame, "Student " + name + " is already enrolled in " +
+                                    dept + courseNum, "Error ", JOptionPane.WARNING_MESSAGE);
                         }
-                        if (student.getName().equals(oops)) {
-                            JOptionPane.showMessageDialog(addCourseFrame, "Student " + student.getName() + " is already enrolled in " +
-                                    campus.getDepartment().getDepartmentName() + campus.getCourseNumber(), "Error ", JOptionPane.WARNING_MESSAGE);
-                        } else if (!campus.availableTo(student)) { //class full
-                            JOptionPane.showMessageDialog(addCourseFrame, student.getName() + " can't add campus Course " + campus.getDepartment().getDepartmentName()
-                                            + campus.getCourseNumber() + " " + campus.getName() + ". Because this campus course has enough students.",
+                        else if (!campusCourse.availableTo(studentAdding)) { // check if the class has space
+                            JOptionPane.showMessageDialog(addCourseFrame, name + " can't add campus Course " + dept
+                                            + courseNum + " " + campusCourse.getName() + ". Because this campus course has enough students.",
                                     "Error ", JOptionPane.WARNING_MESSAGE);
-                        } else if (student.detectConflictBool(campus)) {
-                            JOptionPane.showMessageDialog(addCourseFrame, student.detectConflictString(campus), "Error ", JOptionPane.WARNING_MESSAGE);
-                        } else if (!student.detectConflictBool(campus) && campus.availableTo(student)) { //add class and credits to enrolled credits to this student
-                            student.getCampusCourseList().add(campus);
-                            student.enrolledCredits = (student.enrolledCredits + campus.getCreditUnits());
-                            student.cCredits = student.cCredits + campus.getCreditUnits();
-                            campus.addStudentToRoster(student);
-                            JOptionPane.showMessageDialog(addCourseFrame, "Success you have added " + campus.getName(), "Success", JOptionPane.PLAIN_MESSAGE);
                         }
-                    } else {
-                        if (!online.availableTo(student)) {
-                            JOptionPane.showMessageDialog(addCourseFrame, "Student " + student.getName() + " has only " + student.getcCredits() +
+                        else if (studentAdding.detectConflictBool(campusCourse)) { // Check for conflicts in student's schedule
+                            JOptionPane.showMessageDialog(addCourseFrame, studentAdding.detectConflictString(campusCourse), "Error ", JOptionPane.WARNING_MESSAGE);
+                        }
+                        else { // add student to class
+                            studentAdding.addCourse(campusCourse);
+                            JOptionPane.showMessageDialog(addCourseFrame, "Success you have added " + campusCourse.getName(), "Success", JOptionPane.PLAIN_MESSAGE);
+                        }
+                    }
+                    else { // if online course
+                        if (!onlineCourse.availableTo(studentAdding)) { // check if student has necessary credits
+                            JOptionPane.showMessageDialog(addCourseFrame, "Student " + name + " has only " + studentAdding.getcCredits() +
                                     " on campus credits enrolled. This student should have at least 6 credits registered before registering online courses.\n" +
-                                    student.getName() + " can't add online course " + online.getDepartment().getDepartmentName() + online.getCourseNumber() + " " +
-                                    online.getName() + ". Because this student doesn't have enough campus course credit.", "Error ", JOptionPane.WARNING_MESSAGE);
-                        } else {
-                            student.getOnlineCourseList().add(online);
-                            student.enrolledCredits = student.enrolledCredits + online.getCreditUnits();
-                            student.oCredits = student.oCredits + online.getCreditUnits();
-                            online.addStudentToRoster(student);
-                            JOptionPane.showMessageDialog(addCourseFrame, "Success you have added " + online.getName(), "Success", JOptionPane.PLAIN_MESSAGE);
+                                    name + " can't add online course " + dept + courseNum + " " +
+                                    onlineCourse.getName() + ". Because this student doesn't have enough campus course credit.", "Error ", JOptionPane.WARNING_MESSAGE);
+                        }
+                        else { // add student to online class
+                            studentAdding.addCourse(onlineCourse);
+                            JOptionPane.showMessageDialog(addCourseFrame, "Success you have added " + onlineCourse.getName(), "Success", JOptionPane.PLAIN_MESSAGE);
                         }
                     }
                 }
@@ -434,141 +427,136 @@ public class UniversityGUI extends JFrame {
             JFrame dropCourseFrame = new JFrame("Drop course");
             setLocationRelativeTo(null);
             dropCourseFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JTextField name = new JTextField();
-            JTextField dep = new JTextField();
-            JTextField courseNum = new JTextField();
+            JTextField nameField = new JTextField();
+            JTextField deptField = new JTextField();
+            JTextField courseNumField = new JTextField();
 
-            int okayClick = JOptionPane.showOptionDialog(dropCourseFrame, new Object[]{"Student Name: ", name, "Department: ", dep, "Course Number: ", courseNum},
+            int okayClick = JOptionPane.showOptionDialog(dropCourseFrame, new Object[]{"Student Name: ", nameField, "Department: ", deptField, "Course Number: ", courseNumField},
                     "Drop Course", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
             if (okayClick == JOptionPane.OK_OPTION) {
-                String n = name.getText().trim();
-                String d = dep.getText().trim();
-                String c = courseNum.getText().trim();
-                int number = Integer.parseInt(c);
+                String name = nameField.getText().trim();
+                String department = deptField.getText().trim();
+                String courseNum = courseNumField.getText().trim();
+                int number = Integer.parseInt(courseNum);
 
-                boolean x = false; //dep exist
-                boolean y = false; //student exist
-                boolean z = false; //course exists
-                Boolean OC = null; //true = campus | False = online
-                Object classType = null;
+                boolean deptExist = false; //dep exist
+                boolean studExist = false; //student exist
+                boolean courseExist = false; //course exists
+                boolean modality = false; //true = campus | False = online
                 Student studentDropping = null;
-                CampusCourse campus = null;
-                OnlineCourse online = null;
+                CampusCourse campusCourse = null;
+                OnlineCourse onlineCourse = null;
 
-                for (Department de : univ1.getDepartments()) {
-                    if (d.equals(de.getDepartmentName())) x = true;
+                for (Department d : univ1.getDepartments()) {
+                    if (department.equals(d.getDepartmentName())) {
+                        deptExist = true;
 
-                    for (Student student : de.getStudentList()) {
-                        if (student.getName().equals(n)) {
-                            y = true;
-                            studentDropping = student;
+                        for (Student student : d.getStudentList()) {
+                            if (student.getName().equals(name)) {
+                                studExist = true;
+                                studentDropping = student;
+                                break;
+                            }
                         }
-                    }
-                    for (CampusCourse cl : de.getCCourses()) {
-                        if (cl.getCourseNumber() == number) {
-                            z = true;
-                            OC = true;
-                            campus = cl;
-                            classType = cl;
+                        for (CampusCourse CC : d.getCCourses()) {
+                            if (CC.getCourseNumber() == number) {
+                                courseExist = true;
+                                modality = true;
+                                campusCourse = CC;
+                                break;
+                            }
                         }
-                    }
-                    for (OnlineCourse cl : de.getOCourses()) {
-                        if (cl.getCourseNumber() == number) {
-                            z = true;
-                            OC = false;
-                            online = cl;
-                            classType = cl;
+                        for (OnlineCourse OC : d.getOCourses()) {
+                            if (OC.getCourseNumber() == number) {
+                                courseExist = true;
+                                modality = false;
+                                onlineCourse = OC;
+                                break;
+                            }
                         }
+                        break;
                     }
                 }
 
                 //Error Messages
-                if (!x)
-                    JOptionPane.showMessageDialog(dropCourseFrame, "Department " + d + " doesn't exist", "Error ", JOptionPane.WARNING_MESSAGE);
-                if (!y)
-                    JOptionPane.showMessageDialog(dropCourseFrame, "Student " + n + " doesn't exist", "Error ", JOptionPane.WARNING_MESSAGE);
-                if (!z)
-                    JOptionPane.showMessageDialog(dropCourseFrame, "Course: " + d + c + " doesn't exist", "Error ", JOptionPane.WARNING_MESSAGE);
+                if (!studExist) JOptionPane.showMessageDialog(dropCourseFrame, "Student " + name + " doesn't exist"
+                        , "Error ", JOptionPane.WARNING_MESSAGE);
+                if (!deptExist)
+                    JOptionPane.showMessageDialog(dropCourseFrame, "Department " + department + " doesn't exist"
+                            , "Error ", JOptionPane.WARNING_MESSAGE);
+                if (!courseExist)
+                    JOptionPane.showMessageDialog(dropCourseFrame, "Course: " + department + courseNum + " doesn't exist"
+                            , "Error ", JOptionPane.WARNING_MESSAGE);
 
-                if (x && y && z) {
-                    Boolean modality = null;
-                    try {
-                        modality = Class.forName("org.university.software.CampusCourse").isInstance(classType);
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    if (modality) {
-                        if (studentDropping.campusCourseList.contains(campus)) {
-                            if (studentDropping.getOnlineCourseList().size() >= 1) {
-                                //if student will have 6 credits left after dropping this class (to keep oCourse) then drop course
-                                if ((studentDropping.getcCredits() - campus.getCreditUnits()) >= 6) {
-                                    //remove student from course, course from student, subtract credits
-                                    campus.getStudentRoster().remove(studentDropping);
-                                    studentDropping.getCampusCourseList().remove(campus);
-                                    studentDropping.enrolledCredits -= campus.getCreditUnits();
-                                    studentDropping.cCredits -= campus.getCreditUnits();
-                                    JOptionPane.showMessageDialog(dropCourseFrame, "Success you have dropped " + campus.getName(), "Success", JOptionPane.PLAIN_MESSAGE);
-                                } else {
-                                    JOptionPane.showMessageDialog(dropCourseFrame, studentDropping.getName() + " can't drop this campus course, because this student"
-                                            + " doesn't have enough campus course credits to hold the online course", "Error ", JOptionPane.WARNING_MESSAGE);
-                                }
-                            } else { //if not in online course drop course
-                                campus.getStudentRoster().remove(studentDropping);
-                                studentDropping.getCampusCourseList().remove(campus);
-                                studentDropping.enrolledCredits -= campus.getCreditUnits();
-                                studentDropping.cCredits -= campus.getCreditUnits();
-                                JOptionPane.showMessageDialog(dropCourseFrame, "Success you have dropped " + campus.getName(), "Success", JOptionPane.PLAIN_MESSAGE);
+                if (deptExist && studExist && courseExist) {
+                    if (modality) {  // if campus course
+                        if (!campusCourse.getStudentRoster().contains(studentDropping)) { // check if enrolled in class
+                            JOptionPane.showMessageDialog(dropCourseFrame, "The course " + department + courseNum +
+                                    " could not be dropped because " + name + " is not enrolled in " + department +
+                                    courseNum + ".", "Error ", JOptionPane.WARNING_MESSAGE);
+                        } else if (!studentDropping.getOnlineCourseList().isEmpty()) {  // check if student is enrolled in online class
+                            if ((studentDropping.getcCredits() - campusCourse.getCreditUnits()) >= 6) {  // check for necessary credits to drop this class
+                                studentDropping.dropCourse(campusCourse);
+                                JOptionPane.showMessageDialog(dropCourseFrame, "Success you have dropped "
+                                        + campusCourse.getName(), "Success", JOptionPane.PLAIN_MESSAGE);
+                            } else {  // student does not have enough credits to hold online class
+                                JOptionPane.showMessageDialog(dropCourseFrame, studentDropping.getName()
+                                                + " can't drop this campus course, because this student"
+                                                + " doesn't have enough campus course credits to hold the online course"
+                                        , "Error ", JOptionPane.WARNING_MESSAGE);
                             }
-                        } else {
-                            JOptionPane.showMessageDialog(dropCourseFrame, "The course " + campus.getDepartment().getDepartmentName() + campus.getCourseNumber() +
-                                    " could not be dropped because " + studentDropping.getName() + " is not enrolled in " + campus.getDepartment().getDepartmentName() +
-                                    campus.getCourseNumber() + ".", "Error ", JOptionPane.WARNING_MESSAGE);
+                        } else { //if not in online course drop campus course
+                            studentDropping.dropCourse(campusCourse);
+                            JOptionPane.showMessageDialog(dropCourseFrame, "Success you have dropped "
+                                    + campusCourse.getName(), "Success", JOptionPane.PLAIN_MESSAGE);
                         }
-                    } else {
-                        if (studentDropping.onlineCourseList.contains(online)) {            //if in roster drop
-                            online.getStudentRoster().remove(studentDropping);
-                            studentDropping.getOnlineCourseList().remove(online);
-                            studentDropping.enrolledCredits -= online.getCreditUnits();
-                            studentDropping.oCredits -= online.getCreditUnits();
-                            JOptionPane.showMessageDialog(dropCourseFrame, "Success you have dropped " + online.getName(), "Success", JOptionPane.PLAIN_MESSAGE);
-                        } else {    //error message if not in roster
-                            JOptionPane.showMessageDialog(dropCourseFrame, "The course " + online.getDepartment().getDepartmentName() + online.getCourseNumber() +
-                                    " could not be dropped because " + studentDropping.getName() + " is not enrolled in " + online.getDepartment().getDepartmentName() +
-                                    online.getCourseNumber() + ".");
-                        }
+                    }
+                    else { // no stipulations to dropping online course
+                        studentDropping.dropCourse(onlineCourse);
+                        JOptionPane.showMessageDialog(dropCourseFrame, "Success you have dropped " + onlineCourse.getName(), "Success", JOptionPane.PLAIN_MESSAGE);
                     }
                 }
             }
         }
+
 
         private void handlePrintSchedule() {
             JFrame scheduleFrame = new JFrame();
             setLocationRelativeTo(null);
             scheduleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JTextField name = new JTextField();
+            JTextField nameField = new JTextField();
 
-            int selection = JOptionPane.showOptionDialog(scheduleFrame, new Object[]{"Student Name: ", name},
-                    "Drop Course", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int okayClick = JOptionPane.showOptionDialog(scheduleFrame, new Object[]{"Student Name: ", nameField},
+                    "Print Schedule", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
-            if (selection == JOptionPane.OK_OPTION) {
-                String n = name.getText().trim();
-                Student s = new Student();
-                s = null;
-                for (Department department : univ1.getDepartments()) {
-                    for (Student student : department.getStudentList()) {
-                        if (n.equals(student.getName())) s = student;
+            if (okayClick == JOptionPane.OK_OPTION) {
+                String name = nameField.getText().trim();
+
+                boolean studExist = false;
+                Student studentPrinting = new Student();
+
+                outerLoop:
+                for(Department d : univ1.getDepartments()) {
+                    for (Student student : d.getStudentList()) {
+                        if (student.getName().equals(name)) {
+                            studExist = true;
+                            studentPrinting = student;
+                            break outerLoop;
+                        }
                     }
                 }
 
-                if (s != null) {
-                    JOptionPane.showMessageDialog(scheduleFrame, s.printScheduleGUI(), "Student " + s.getName()
-                            + "'s Schedule", JOptionPane.PLAIN_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(scheduleFrame, "Student " + n + " doesn't exist", "Error",
-                            JOptionPane.WARNING_MESSAGE);
+                if(studExist) {
+                    studentPrinting.printScheduleGUI();
                 }
+                else {
+                    JOptionPane.showMessageDialog(scheduleFrame, "Student " + name + " doesn't exist"
+                            , "Error", JOptionPane.WARNING_MESSAGE);
+                }
+
             }
         }
     }
 }
+

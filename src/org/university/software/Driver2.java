@@ -6,9 +6,6 @@ import org.university.people.Professor;
 import org.university.people.Staff;
 //import org.university.people.Staff;
 import org.university.people.Student;
-import org.university.software.Course;
-import org.university.software.University;
-import org.university.software.UniversityGUI;
 
 public class Driver2 {
 
@@ -82,55 +79,55 @@ public class Driver2 {
 		c1.setCourseNumber(387);
 		c1.setName("Enterprise Web Applications");
 		c1.setCreditUnits(3);
-		c1.setMaxCourseLimit(4);
+		c1.setMaxStudents(4);
 		dept2.addCourse(c1);
 
 		c2.setCourseNumber(372);
 		c2.setName("Comparative Programming Languages");
 		c2.setCreditUnits(4);
-		c2.setMaxCourseLimit(3);
+		c2.setMaxStudents(3);
 		dept2.addCourse(c2);
 
 		c3.setCourseNumber(345);
 		c3.setName("Discrete Structures");
 		c3.setCreditUnits(4);
-		c3.setMaxCourseLimit(2);
+		c3.setMaxStudents(2);
 		dept2.addCourse(c3);
 
 		c4.setCourseNumber(426);
 		c4.setName("Computer Networks");
 		c4.setCreditUnits(4);
-		c4.setMaxCourseLimit(3);
+		c4.setMaxStudents(3);
 		dept2.addCourse(c4);
 
 		c5.setCourseNumber(275);
 		c5.setName("Computer Programming II");
 		c5.setCreditUnits(3);
-		c5.setMaxCourseLimit(3);
+		c5.setMaxStudents(3);
 		dept1.addCourse(c5);
 
 		c6.setCourseNumber(320);
 		c6.setName("Circuits Analysis");
 		c6.setCreditUnits(3);
-		c6.setMaxCourseLimit(3);
+		c6.setMaxStudents(3);
 		dept1.addCourse(c6);
 
 		c7.setCourseNumber(373);
 		c7.setName("Object Oriented Software Design");
 		c7.setCreditUnits(3);
-		c7.setMaxCourseLimit(3);
+		c7.setMaxStudents(3);
 		dept1.addCourse(c7);
 
 		c8.setCourseNumber(107);
 		c8.setName("Experimental Course");
 		c8.setCreditUnits(3);
-		c8.setMaxCourseLimit(3);
+		c8.setMaxStudents(3);
 		dept1.addCourse(c8);
 		
 		c9.setCourseNumber(501);
 		c9.setName("test Course");
 		c9.setCreditUnits(3);
-		c9.setMaxCourseLimit(3);
+		c9.setMaxStudents(3);
 		
 		/* Set Online course name, number and department*/
 		oc1.setCourseNumber(610);

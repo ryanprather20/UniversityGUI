@@ -9,30 +9,28 @@ import org.university.people.*;
 
 public class CampusCourse extends Course implements Serializable{
 	
-	//fields
 	private int maxStudents;
 	private ArrayList<Integer> schedule;
 	private Classroom classroom;
-	private static String[] week = {"Mon", "Tue", "Wed", "Thu", "Fri"};
-	private static String[] slot = {"8:00am to 9:15am","9:30am to 10:45am","11:00am to 12:15pm","2:00pm to 3:15pm","3:30pm to 4:45pm"};
+	private static final String[] week = {"Mon", "Tue", "Wed", "Thu", "Fri"};
+	private static final String[] slot = {"8:00am to 9:15am","9:30am to 10:45am","11:00am to 12:15pm"
+			,"2:00pm to 3:15pm","3:30pm to 4:45pm"};
 	
-	//default constructor
 	CampusCourse() {
-		schedule = new ArrayList<Integer>();
+		schedule = new ArrayList<>();
 	}
-	//Parameterized Constructor
 	CampusCourse(String name, int courseNum, int max, int credits) {
 		this.setName(name);
 		this.setCourseNumber(courseNum);
-		this.setMaxCourseLimit(max);
+		this.setMaxStudents(max);
 		this.setCreditUnits(credits);
+		this.setModality(true); // on campus course
 	}
 	
-	//getters setters
-	public int getMaxCourseLimit() {
+	public int getMaxStudents() {  // for testing
 		return maxStudents;
 	}
-	public void setMaxCourseLimit(int maxStudents) {
+	public void setMaxStudents(int maxStudents) {
 		this.maxStudents = maxStudents;
 	}
 	public ArrayList<Integer> getSchedule() {
@@ -58,7 +56,7 @@ public class CampusCourse extends Course implements Serializable{
 	}
 	
 	public Boolean detectClassroomConflict(Classroom r) {
-		Boolean check = false;
+		boolean check = false;
 		for(Integer i : getSchedule()) {
 			for(CampusCourse cc : r.getCourseList()) {
 				for(Integer j : cc.getSchedule()) {
@@ -81,12 +79,13 @@ public class CampusCourse extends Course implements Serializable{
 	}
 	
 	public Boolean detectClassroomConflictBOOL(Classroom r) {
-		Boolean check = false;
+		boolean check = false;
 		for(Integer i : getSchedule()) {
 			for(CampusCourse cc : r.getCourseList()) {
 				for(Integer j : cc.getSchedule()) {
-					if(i.equals(j)) {
+					if (i.equals(j)) {
 						check = true;
+						break;
 					}
 				}
 			}
@@ -118,23 +117,12 @@ public class CampusCourse extends Course implements Serializable{
 		return x;
 	}
 	
-	//methods
 	public Boolean availableTo(Student aStudent) {
-		if (roster.size() < maxStudents) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return roster.size() < maxStudents;
 	}
 	
 	public Boolean availableTo(Staff aStaff) {
-		if (roster.size() < maxStudents) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return roster.size() < maxStudents;
 	}
 
 	public void printSchedule() {

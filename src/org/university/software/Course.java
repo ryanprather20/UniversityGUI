@@ -7,20 +7,19 @@ import org.university.hardware.*;
 import org.university.people.*;
 
 public abstract class Course implements Serializable {
-	//fields
+
 	private String name;
 	protected Department department;
 	private int courseNumber;
 	protected ArrayList<Person> roster;
 	private Professor professor;
 	private int creditUnits;
+	private boolean modality; //true = campus course | false = online course
 	
-	//default constructor
 	Course() {
-		roster = new ArrayList<Person>();
+		roster = new ArrayList<>();
 	}
 	
-	//getters & setters
 	public String getName() {
 		return name;
 	}
@@ -59,13 +58,14 @@ public abstract class Course implements Serializable {
 	public void setCreditUnits(int creditUnits) {
 		this.creditUnits = creditUnits;
 	}
+	public boolean getModality() { return modality; }
+	public void setModality(boolean mode) { this.modality = mode; } // true = campus course | false = online course
 
-	//methods
-	public void addStudentToRoster(Person aPerson){ //add student OR staff to 
+	public void addStudentToRoster(Person aPerson){ //add student OR staff to
 			roster.add(aPerson);
 	}
 	
-	public abstract Boolean availableTo(Student aStudent);
+	public abstract Boolean availableTo(Student aStudent); // each course handles specific requirements for students
 
-	public abstract void printSchedule();	
+	public abstract void printSchedule(); // used for testing
 }

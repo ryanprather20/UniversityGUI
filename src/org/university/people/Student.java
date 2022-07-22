@@ -70,9 +70,7 @@ public class Student extends Person implements Serializable{
 		//tuition is added when in respective addCourse
 		this.tuitionFee = tuitionFee;
 	}
-	
-	//methods
-	
+
 	public void addCourse(CampusCourse cCourse) { //check for conflicts and if class is available to student
 		if(!cCourse.availableTo(this)) {
 			System.out.print(getName() + " can't add Campus Course " + cCourse.getDepartment().getDepartmentName() + cCourse.getCourseNumber()

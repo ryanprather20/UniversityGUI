@@ -46,7 +46,7 @@ public class Department implements Serializable{
 	public ArrayList<Staff> getStaffList() {
 		return staffList;
 	}
-	public ArrayList<Course> getCampusCourseList() {
+	public ArrayList<Course> getAllCourseList() {
 		return courseList;
 	}
 	public ArrayList<CampusCourse> getCCourses() {
@@ -81,7 +81,8 @@ public class Department implements Serializable{
 
 	public void printCourseList() {
 		for(Course c : courseList) {
-			System.out.println(c.getDepartment().getDepartmentName()+c.getCourseNumber()+" "+c.getName());
+			System.out.println(c.getDepartment().getDepartmentName() + c.getCourseNumber()
+					+ " " + c.getName());
 		}
 	}
 

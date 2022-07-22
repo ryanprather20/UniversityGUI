@@ -31,19 +31,15 @@ public class University implements Serializable {
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 	public ArrayList<Department> getDepartments() {
 		return departmentList;
 	}
-	
 	public ArrayList<Classroom> getClassrooms() {
 		return classroomList;
 	}
-	
 	public void addDepartment(Department newDepartment) {
 		departmentList.add(newDepartment);
 	}
@@ -53,13 +49,28 @@ public class University implements Serializable {
 			System.out.println(department.getDepartmentName());
 		}
 	}
-	
+
+	public ArrayList<Person> getAllStudents() {
+		ArrayList<Person> allStudents = new ArrayList<Person>();
+		for(Department department : departmentList) {
+			allStudents.addAll(department.getStudentList());
+		}
+		return allStudents;
+	}
 	public void printStudentList() {
 		for(Department department : departmentList) {
 			for(Student student : department.getStudentList()) {
 				System.out.println(student.getName());
 			}
 		}
+	}
+
+	public ArrayList<Course> getAllCourses() {
+		ArrayList<Course> allCourses = new ArrayList<Course>();
+		for(Department department : departmentList) {
+			allCourses.addAll(department.getAllCourseList());
+		}
+		return allCourses;
 	}
 	
 	public void printDepartmentDetails() {
