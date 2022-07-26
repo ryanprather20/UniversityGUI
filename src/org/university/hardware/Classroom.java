@@ -41,10 +41,12 @@ public class Classroom implements Serializable {
 	}
 
 	public void printSchedule() { // Prints schedule in chronological order for readability
+		System.out.println("\nThe schedule for classroom " + roomNumber);
 		Collections.sort(schedule);
 		for(Integer num : schedule) {
 			int day = (num / 100) - 1;
 			int time = (num % 10) - 1;
+
 			System.out.print(week[day] + " " + slot[time] + " ");
 			for(CampusCourse c : cCourses) {
 				for(Integer i : c.getSchedule()) {
@@ -55,5 +57,4 @@ public class Classroom implements Serializable {
 			}
 		}
 	}
-	
 }

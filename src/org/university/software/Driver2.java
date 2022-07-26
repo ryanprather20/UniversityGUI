@@ -4,31 +4,27 @@ import org.university.hardware.Classroom;
 import org.university.hardware.Department;
 import org.university.people.Professor;
 import org.university.people.Staff;
-//import org.university.people.Staff;
 import org.university.people.Student;
 
 public class Driver2 {
 
 	public static void main(String[] args) {
-	
-		
-		University univ1 = new University();
-		UniversityGUI newGUI;
-		University univ2; 
 
-		// Create  University of Dept, , buildings, classrooms,  professors,students, staff
+		// Create University
+		University univ1 = new University();
+		UniversityGUI newGUI = new UniversityGUI("UniversityGUI", univ1);;
 		
-		// Set Dept
+		// Create Dept
 		Department dept1 = new Department();
 		Department dept2 = new Department();
 
-		// Set Student
+		// Create Students
 		Student s1 = new Student();
 		Student s2 = new Student();
 		Student s3 = new Student();
 		Student s4 = new Student();
 		
-		// Set CampusCourse
+		// Create CampusCourse
 		CampusCourse c1 = new CampusCourse();
 		CampusCourse c2 = new CampusCourse();
 		CampusCourse c3 = new CampusCourse();
@@ -39,31 +35,30 @@ public class Driver2 {
 		CampusCourse c8 = new CampusCourse();
 		CampusCourse c9 = new CampusCourse();
 		
-		/* Set Online Courses */
+		// Create Online Courses
 		OnlineCourse oc1 = new OnlineCourse();
 		OnlineCourse oc2 = new OnlineCourse();
 		OnlineCourse oc3 = new OnlineCourse();
 		OnlineCourse oc4 = new OnlineCourse();
 		
-		// Set Rooms
+		// Create Rooms
 		Classroom cr1 = new Classroom();
 		Classroom cr2 = new Classroom();
 		Classroom cr3 = new Classroom();
 		Classroom cr4 = new Classroom();
 	
 		
-		// Set Professor
+		// Create Professor
 		Professor p1 = new Professor();
 		Professor p2 = new Professor();
 		Professor p3 = new Professor();
 		Professor p4 = new Professor();
 		Professor p5 = new Professor();
 
-		// Set Staff
+		// Create Staff
 		Staff sf1 = new Staff();
         
-		// Set attributes ,  Initialization 
-		
+		// Set attributes to test methods
 		dept1.setDepartmentName("ECE");
 		dept2.setDepartmentName("CS");
 
@@ -129,7 +124,7 @@ public class Driver2 {
 		c9.setCreditUnits(3);
 		c9.setMaxStudents(3);
 		
-		/* Set Online course name, number and department*/
+		// Set Online course name, number and department
 		oc1.setCourseNumber(610);
 		oc1.setName("Online_Course_1");
 		oc1.setCreditUnits(3);
@@ -207,7 +202,7 @@ public class Driver2 {
 		p5.addCourse(c4);
         //sign up Prof. Homer for class CS426 
 
-		//set classrooms for courses
+		// set classrooms for courses
 		c1.setRoomAssigned(cr2);
 		c2.setRoomAssigned(cr4);
 		c3.setRoomAssigned(cr3);
@@ -232,19 +227,14 @@ public class Driver2 {
        
 		// Adding online courses to students
 		s1.addCourse(oc1);
-		//s2.addCourse(oc2);
-		//s3.addCourse(oc3);
+		// s2.addCourse(oc2);
+		// s3.addCourse(oc3);
 		s4.addCourse(oc4);
 		
-       	// Adding courses to staff and payrate
+       	// Adding courses to staff and pay rate
         sf1.addCourse(c1);
         sf1.setPayRate(20.0);
         sf1.setMonthlyHours(160);
-        
-        
-      
-       // Instantiate GUI
-        newGUI = new UniversityGUI("UniversityGUI", univ1);
 	}
 
 }

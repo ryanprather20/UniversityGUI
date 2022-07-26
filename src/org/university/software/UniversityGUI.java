@@ -1,33 +1,22 @@
 package org.university.software;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import org.university.hardware.Classroom;
+import org.university.hardware.Department;
+import org.university.people.Student;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.Serial;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-
-import org.university.hardware.Classroom;
-import org.university.hardware.Department;
-import org.university.people.Person;
-import org.university.people.Student;
-
 public class UniversityGUI extends JFrame {
 
     @Serial
     private static final long serialVersionUID = 1L;
+
     private JMenuBar menuBar;
     private JMenu adminMenu;
     private JMenu fileMenu;
@@ -140,13 +129,10 @@ public class UniversityGUI extends JFrame {
             University uni = University.loadData();
             if (uni != null) {
                 univ1 = uni;
-                //uni.printAll(); // for testing
             }
         }
 
-        private void handleExit() {
-            System.exit(0);
-        }
+        private void handleExit() { System.exit(0); }
 
         private void handlePrintAll() {
             if (univ1 != null) {
@@ -162,6 +148,7 @@ public class UniversityGUI extends JFrame {
                 JTextArea area = new JTextArea();
                 area.setText(outp.toString());
                 area.setEditable(false);
+                area.setCaretPosition(0);
                 f.setSize(600, 700);
                 f.setLocationRelativeTo(null);
                 JScrollPane scroll = new JScrollPane(area);

@@ -40,24 +40,22 @@ public class University implements Serializable {
 	public ArrayList<Classroom> getClassrooms() {
 		return classroomList;
 	}
-	public void addDepartment(Department newDepartment) {
-		departmentList.add(newDepartment);
-	}
 	
 	public void printDepartmentList() {
+		System.out.println("Department list:");
 		for(Department department : departmentList) {
 			System.out.println(department.getDepartmentName());
 		}
 	}
 
-	public ArrayList<Person> getAllStudents() {
-		ArrayList<Person> allStudents = new ArrayList<Person>();
-		for(Department department : departmentList) {
-			allStudents.addAll(department.getStudentList());
+	public void printClassroomList() {
+		System.out.println("\nClassroom list:");
+		for(Classroom room : classroomList) {
+			System.out.println(room.getRoomNumber());
 		}
-		return allStudents;
 	}
-	public void printStudentList() {
+
+	public void printStudentList() {  // for testing
 		for(Department department : departmentList) {
 			for(Student student : department.getStudentList()) {
 				System.out.println(student.getName());
@@ -65,7 +63,7 @@ public class University implements Serializable {
 		}
 	}
 
-	public ArrayList<Course> getAllCourses() {
+	public ArrayList<Course> getAllCourses() {   // for testing
 		ArrayList<Course> allCourses = new ArrayList<Course>();
 		for(Department department : departmentList) {
 			allCourses.addAll(department.getAllCourseList());
@@ -75,35 +73,12 @@ public class University implements Serializable {
 	
 	public void printDepartmentDetails() {
 		for(Department d : departmentList) {
-			System.out.println("\nDepartment " + d.getDepartmentName());
-			System.out.println("\nPrinting professor schedules:");
-			for(Professor p : d.getProfessorList()) {
-				System.out.println("\nThe schedule for Prof. " + p.getName() + ":");
-				p.printSchedule();
-			}
-			System.out.println("\nPrinting student schedules:");
-			for(Student s : d.getStudentList()) {
-				System.out.println("\nThe schedule for student " + s.getName() + ":");
-				s.printSchedule();
-			}
-			System.out.println("\nPrinting staff schedules:");
-			for(Staff s : d.getStaffList()) {
-				System.out.println("\nThe schedule for employee " + s.getName() + ":");
-				s.printSchedule();
-				double x = s.getMonthlyHours() * s.getPayRate();
-				System.out.println("\nStaff: " + s.getName() + " earns " + x + " this month");
-			}
-			if(d.getStaffList().isEmpty()) System.out.println();
-			System.out.println("\nThe rosters for courses offered by " + d.getDepartmentName());
-			for(Course c : d.getCCourses()) {
-				System.out.println("\nThe roster for course " + c.getDepartment().getDepartmentName() + c.getCourseNumber());
-				c.printRoster();
-			}	
+			d.printAll();
 		}
 		System.out.print("\n");
 	}
 	
-	public void printCourseList() { //campus then online ig
+	public void printCourseList() { // first print campus then online
 		for(Department d : departmentList) {
 			System.out.println("\nThe course list for department " + d.getDepartmentName());
 			if(!departmentList.isEmpty()) {
@@ -125,33 +100,18 @@ public class University implements Serializable {
 			}
 		}
 	}
-	
-	public void printStaffList() {
-		for(Department d : departmentList) {
-			for(Staff s : d.getStaffList()) {
-				System.out.println(s.getName());
-			}
-		}
-	}
 
 	public void printAll() {
-		System.out.println("\nDepartment list:");
 		printDepartmentList();
-		
-		System.out.println("\nClassroom list:");
-		for(Classroom c : classroomList) {
-			System.out.println(c.getRoomNumber());
-		}
 
 		printProfessorList();
 
 		printCourseList();
-		
-		for(Classroom c : classroomList) {
-			System.out.println("\nThe schedule for classroom " + c.getRoomNumber());
-			c.printSchedule();
-		}
-		
+
+		printClassroomList();
+
+		for(Classroom c : classroomList) c.printSchedule();
+
 		printDepartmentDetails();
 	}
 

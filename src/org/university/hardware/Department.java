@@ -30,7 +30,6 @@ public class Department implements Serializable{
 		oCourseList = new ArrayList<OnlineCourse>();
 	}
 	
-	// Getters/Setters
 	public String getDepartmentName() {
 		return deptName;
 	}
@@ -59,7 +58,7 @@ public class Department implements Serializable{
 		studentList.add(s1);
 	}
 
-	public void addCourse(CampusCourse c1) { //
+	public void addCourse(CampusCourse c1) {
 		courseList.add(c1);
 		cCourseList.add(c1);
 		c1.setDepartment(this);
@@ -79,27 +78,62 @@ public class Department implements Serializable{
 		staffList.add(sf1);
 	}
 
-	public void printCourseList() {
+	public void printCourseList() {  // for testing
 		for(Course c : courseList) {
 			System.out.println(c.getDepartment().getDepartmentName() + c.getCourseNumber()
 					+ " " + c.getName());
 		}
 	}
 
-	public void printStudentList() {
+	public void printStudentList() {  // for testing
 		for(Student s : studentList) {
 			System.out.println(s.getName());
 		}
 	}
 
-	public void printProfessorList() {
+	public void printProfessorList() {  // for testing
 		for(Professor p : professorList) {
 			System.out.println(p.getName());
 		}
 	}
-	public void printStaffList() {
+	public void printStaffList() {  // for testing
+		if(!staffList.isEmpty()) {
+			for (Staff s : staffList) {
+				System.out.println(s.getName());
+			}
+		}
+		else {
+			System.out.println("No staff to display");
+		}
+	}
+
+	public void printAll() { // used for University admin's print all button
+		System.out.println("\nDepartment " + deptName);
+
+		System.out.println("\nPrinting professor schedules:");
+		for(Professor p : professorList) {
+			System.out.println("\nThe schedule for Prof. " + p.getName() + ":");
+			p.printSchedule();
+		}
+
+		System.out.println("\nPrinting student schedules:");
+		for(Student s :studentList) {
+			System.out.println("\nThe schedule for student " + s.getName() + ":");
+			s.printSchedule();
+		}
+
+		System.out.println("\nPrinting staff schedules:");
 		for(Staff s : staffList) {
-			System.out.println(s.getName());
+			System.out.println("\nThe schedule for employee " + s.getName() + ":");
+			s.printSchedule();
+			double x = s.getMonthlyHours() * s.getPayRate();
+			System.out.println("\nStaff: " + s.getName() + " earns " + x + " this month");
+		}
+
+		System.out.println("\nThe rosters for courses offered by " + deptName);
+		for(Course c : cCourseList) {
+			System.out.println("\nThe roster for course " + deptName + c.getCourseNumber());
+			c.printRoster();
 		}
 	}
 }
